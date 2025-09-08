@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sending and fetching data</title>
+</head>
+<body>
+    <script>
+        //sending and fetching data; basic implementation
+         fetch("https://pokeapi.co/api/v2/pokemon/pikachu") 
+         .then((response)=>{
+             if(response.ok){
+                return response.json();
+             }
+             else {
+                throw new Error("Failed to fetch the data");
+
+             }
+         })
+         .then((data) => {
+            console.log(data);
+         })
+         .catch((error) => {
+               console.log(error);
+         });
+
+
+         //fetch API
+         async function fetchData(url) {
+            const response = await fetch(url);
+            if(response.ok){
+                return response.json();
+            }
+            else {
+                throw new Error("Failed to fetch the data");
+            }
+
+
+            fetchData("https://pokeapi.co/api/v2/pokemon/pikachu")
+            .then((data) => {
+                console.log(data);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+         }
+
+          // sending data
+          const product = {
+            id: 1,
+            name: "Apple",
+            price: 0.5,
+            quantity: 100,
+            description: "Fresh red apples"
+          };
+          async function sendData(url, data){
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+            if(response.ok){
+                return response.json();
+            }
+            else {
+                throw new Error("Failed to send the data");
+            }
+          }
+
+          
+            
+        
+            
+    
+    </script>
+</body>
+</html>
