@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch and Post Data</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .section-title {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        .loading-message {
+            text-align: center;
+            font-size: 1.25rem;
+            color: #4b5563;
+        }
+        .post-list {
+            margin-top: 1rem;
+            list-style-type: disc;
+            padding-left: 2rem;
+        }
+        .post-list li {
+            margin-bottom: 0.5rem;
+            background-color: #e5e7eb;
+            padding: 0.5rem;
+            border-radius: 6px;
+        }
+        .success-message {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #d1fae5;
+            color: #065f46;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .form-container {
+            margin-top: 2rem;
+            border-top: 2px solid #e5e7eb;
+            padding-top: 2rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="container">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Fetch & Post Demo</h1>
+
+        <!-- Section to display fetched posts -->
+        <div class="mb-8">
+            <h2 class="section-title">Fetched Posts</h2>
+            <div class="flex justify-center mb-4">
+                <button id="fetch-posts-btn" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300">Fetch Posts</button>
+            </div>
+            
+            <div id="loading-spinner" class="loading-message hidden">
+                <p>Loading posts...</p>
+            </div>
+            
+            <ul id="posts-list" class="post-list hidden"></ul>
+        </div>
+
+        <!-- Section for creating a new post -->
+        <div class="form-container">
+            <h2 class="section-title">Create a New Post</h2>
+            <form id="new-post-form" class="space-y-4">
+                <div>
+                    <label for="post-title" class="block text-sm font-medium text-gray-700">Post Title</label>
+                    <input type="text" id="post-title" name="title" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div>
+                    <label for="post-body" class="block text-sm font-medium text-gray-700">Post Body</label>
+                    <textarea id="post-body" name="body" rows="4" required class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
+                </div>
+                <button type="submit" class="w-full bg-green-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-600 transition duration-300">Submit New Post</button>
+            </form>
+            <div id="post-success-message" class="success-message hidden">
+                Post created successfully!
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const fetchBtn = document.getElementById('fetch-posts-btn');
+            const loadingSpinner = document.getElementById('loading-spinner');
+            const postsList = document.getElementById('posts-list');
+            const newPostForm = document.getElementById('new-post-form');
+            const successMessage = document.getElementById('post-success-message');
+
+            // Function to fetch posts and display them
+            const fetchAndDisplayPosts = async () => {
+                loadingSpinner.classList.remove('hidden');
+                postsList.classList.add('hidden');
+                postsList.innerHTML = ''; // Clear previous list
+
+                try {
+                    const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+                    const posts = await response.json();
+
+                    posts.forEach(post => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = post.title;
+                        postsList.appendChild(listItem);
+                    });
+                    
+                    postsList.classList.remove('hidden');
+
+                } catch (error) {
+                    console.error('Error fetching posts:', error);
+                    postsList.innerHTML = '<p class="text-red-500 text-center">Failed to load posts. Please try again later.</p>';
+                    postsList.classList.remove('hidden');
+
+                } finally {
+                    loadingSpinner.classList.add('hidden');
+                }
+            };
+
+            // Function to handle form submission
+            newPostForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+
+                const title = document.getElementById('post-title').value;
+                const body = document.getElementById('post-body').value;
+
+                try {
+                    const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            title: title,
+                            body: body,
+                            userId: 1, // Example user ID
+                        }),
+                        headers: {
+                            'Content-type': 'application/json; charset=UTF-8',
+                        },
+                    });
+
+                    const result = await response.json();
+                    console.log('Post successful:', result);
+                    
+                    // Show the success message
+                    successMessage.classList.remove('hidden');
+                    setTimeout(() => {
+                        successMessage.classList.add('hidden');
+                    }, 3000); // Hide message after 3 seconds
+
+                    // Clear the form
+                    newPostForm.reset();
+
+                } catch (error) {
+                    console.error('Error posting data:', error);
+                    // In a real app, you would show an error message to the user here
+                }
+            });
+
+            // Event listener for the "Fetch Posts" button
+            fetchBtn.addEventListener('click', fetchAndDisplayPosts);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Manipulation</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .hover-box {
+            width: 200px;
+            height: 100px;
+            background-color: #fca5a5; /* Initial red-300 color */
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 600;
+            text-align: center;
+            color: #7f1d1d; /* Initial red-900 color */
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="container">
+        
+        <!-- Section 1: Dynamic List -->
+        <div>
+            <h2 class="section-title">Dynamic List of Names</h2>
+            <ul id="names-list" class="list-disc pl-5"></ul>
+        </div>
+        
+        <!-- Section 2: Add Paragraph Button -->
+        <div>
+            <h2 class="section-title">Add Paragraph</h2>
+            <div id="paragraph-container" class="space-y-2"></div>
+            <div class="flex justify-center mt-4">
+                <button id="add-paragraph-btn" class="bg-purple-500 text-white font-bold py-2 px-4 rounded-md hover:bg-purple-600 transition duration-300">Add Paragraph</button>
+            </div>
+        </div>
+
+        <!-- Section 3: Hover Effect -->
+        <div>
+            <h2 class="section-title">Hover to Change Style</h2>
+            <div class="flex justify-center">
+                <div id="hover-element" class="hover-box">
+                    Hover over me!
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- 1. Create a list dynamically from an array of names. ---
+            const names = ['Alice', 'Bob', 'Charlie', 'Diana', 'Eve'];
+            const namesList = document.getElementById('names-list');
+
+            names.forEach(name => {
+                const listItem = document.createElement('li');
+                listItem.textContent = name;
+                namesList.appendChild(listItem);
+            });
+
+
+            // --- 2. Make a button that adds a new paragraph each time it’s clicked. ---
+            const addParagraphBtn = document.getElementById('add-paragraph-btn');
+            const paragraphContainer = document.getElementById('paragraph-container');
+            let paragraphCount = 1;
+
+            addParagraphBtn.addEventListener('click', () => {
+                const newParagraph = document.createElement('p');
+                newParagraph.textContent = `This is a new paragraph #${paragraphCount}.`;
+                newParagraph.className = 'text-gray-600';
+                paragraphContainer.appendChild(newParagraph);
+                paragraphCount++;
+            });
+
+
+            // --- 3. Change the style of an element when hovering (via JS). ---
+            const hoverElement = document.getElementById('hover-element');
+
+            // Listen for the mouseenter event
+            hoverElement.addEventListener('mouseenter', () => {
+                hoverElement.style.backgroundColor = '#60a5fa'; // Blue-400
+                hoverElement.style.color = '#1e40af'; // Blue-800
+                hoverElement.textContent = "You're hovering!";
+            });
+
+            // Listen for the mouseleave event to revert the styles
+            hoverElement.addEventListener('mouseleave', () => {
+                hoverElement.style.backgroundColor = ''; // Revert to initial
+                hoverElement.style.color = ''; // Revert to initial
+                hoverElement.textContent = "Hover over me!";
+            });
+        });
+    </script>
+</body>
+</html>

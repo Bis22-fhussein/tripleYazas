@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  <body>
+    <h1>My Page</h1>
+    <div id="content-container"></div>
+
+    <script>
+        // --- Step 1: Create the new element ---
+        const newParagraph = document.createElement('p');
+
+        // --- Step 2: Add content and styles to the new element ---
+        newParagraph.textContent = 'A new paragraph has been added dynamically!';
+        newParagraph.style.color = 'darkblue';
+        newParagraph.style.fontSize = '18px';
+
+        // --- Step 3: Find a place to put the new element and append it ---
+        const container = document.getElementById('content-container');
+
+        // Now, this line will work because 'container' is no longer null!
+        container.appendChild(newParagraph);
+    </script>
+</body>
+</body>
+</html>

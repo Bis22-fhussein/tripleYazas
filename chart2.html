@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chart.js Demo</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            display: grid;
+            gap: 20px;
+            grid-template-columns: 1fr;
+        }
+        @media (min-width: 768px) {
+            .container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        .chart-card {
+            background-color: white;
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .chart-title {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        #randomize-btn {
+            background-color: #3b82f6;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 9999px;
+            font-weight: 600;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #randomize-btn:hover {
+            background-color: #2563eb;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="flex flex-col items-center p-4">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">Dynamic Chart Demo</h1>
+        <button id="randomize-btn">Randomize Data</button>
+    </div>
+
+    <div class="container">
+        <!-- Pie Chart for Favorite Fruits -->
+        <div class="chart-card">
+            <h2 class="chart-title">Favorite Fruits</h2>
+            <canvas id="fruitChart"></canvas>
+        </div>
+
+        <!-- Line Chart for Subject Marks -->
+        <div class="chart-card">
+            <h2 class="chart-title">Subject Marks</h2>
+            <canvas id="marksChart"></canvas>
+        </div>
+    </div>
+
+    <script>
+        // Data for the charts
+        const fruitData = {
+            labels: ['Apples', 'Oranges', 'Bananas', 'Grapes', 'Strawberries'],
+            datasets: [{
+                label: 'Votes',
+                data: [12, 19, 3, 5, 2],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.7)',
+                    'rgba(255, 159, 64, 0.7)',
+                    'rgba(255, 205, 86, 0.7)',
+                    'rgba(75, 192, 192, 0.7)',
+                    'rgba(153, 102, 255, 0.7)'
+                ],
+                borderColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(255, 159, 64)',
+                    'rgb(255, 205, 86)',
+                    'rgb(75, 192, 192)',
+                    'rgb(153, 102, 255)'
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        const marksData = {
+            labels: ['Math', 'Science', 'History', 'English', 'Art'],
+            datasets: [{
+                label: 'Marks',
+                data: [85, 92, 78, 88, 95],
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }]
+        };
+
+        // Create the charts
+        const fruitChartCtx = document.getElementById('fruitChart');
+        const fruitChart = new Chart(fruitChartCtx, {
+            type: 'pie',
+            data: fruitData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: false,
+                    }
+                }
+            },
+        });
+
+        const marksChartCtx = document.getElementById('marksChart');
+        const marksChart = new Chart(marksChartCtx, {
+            type: 'line',
+            data: marksData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: false,
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                }
+            },
+        });
+
+        // Function to generate a random number
+        const getRandomNumber = (max) => Math.floor(Math.random() * max);
+
+        // Function to update the chart data
+        const randomizeData = () => {
+            // Update fruit chart data
+            fruitChart.data.datasets[0].data = fruitChart.data.labels.map(() => getRandomNumber(25));
+            fruitChart.update();
+
+            // Update marks chart data
+            marksChart.data.datasets[0].data = marksChart.data.labels.map(() => getRandomNumber(101));
+            marksChart.update();
+        };
+
+        // Add event listener to the button
+        document.getElementById('randomize-btn').addEventListener('click', randomizeData);
+    </script>
+</body>
+</html>

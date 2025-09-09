@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+    // Fetching data from a fake API
+fetch('https://jsonplaceholder.typicode.com/posts/1')
+  .then(response => response.json()) // parse the JSON data
+  .then(data => console.log(data)) // log the data to the console
+  .catch(error => console.error('Error:', error));
+
+// Sending data to a fake API
+fetch('https://jsonplaceholder.typicode.com/posts', {
+  method: 'POST', // specify the method
+  body: JSON.stringify({ // turn the data into a JSON string
+    title: 'New Post',
+    body: 'This is my new post content.',
+    userId: 1,
+  }),
+  headers: {
+    'Content-type': 'application/json; charset=UTF-8', // let the server know what kind of data is being sent
+  },
+})
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error('Error:', error));
+  </script>
+</body>
+</html>

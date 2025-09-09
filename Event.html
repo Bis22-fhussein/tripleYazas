@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+     <!-- <button onclick="alert('hello world')">Click me</button>
+    <a href="www.mubas.com" onclick="show()"></a> -->
+    <button id = "btn">Click Me</button>
+    <script>
+       
+        // const but = document.getElementById("btn").onclick = () =>{
+        //     alert("hello world");
+        // };
+        //event listener
+         document.getElementById("btn").addEventListener("click", (event) =>{
+            alert("type: " + event.type + " target: " + event.target);
+        });
+
+    </script>
+</body>
+</html>
