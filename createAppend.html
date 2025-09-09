@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creating, Appending and styling elements</title>
+</head>
+<body>
+    <h1>Creating, Appending and styling elements</h1>
+    <div id="container"></div>
+    
+    <script>
+        const container = document.getElementById("container");
+        const newElement = document.createElement("p");
+        newElement.textContent = "This is a dynamically created paragraph.";
+        newElement.style.color = "red";
+        container.appendChild(newElement);
+        newElement.style.fontSize = "20px";
+        newElement.style.fontWeight = "bold";
+        newElement.style.fontFamily = "Arial, sans-serif";
+        newElement.style.backgroundColor = "lightgray";
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVENT HANDLING PROGRAMS</title>
+</head>
+<body>
+    <button id="myButton">Click Me!</button>
+    <script>
+        // A CODE TO ADD A CLICK EVENT LISTENER TO A BUTTON AND DISPLAY AN ALERT MESSAGE WHEN THE BUTTON IS CLICKED.
+        document.getElementById("myButton").addEventListener("click", function() {
+            alert("Button Clicked!");
+        });
+
+
+
+        // a code to change the background color of a div when the mouse hovers over it and revert it back when the mouse leaves.
+        const div = document.createElement("div");
+        div.textContent = "Hover over me!";
+        div.style.width = "200px";
+        div.style.height = "100px";
+        div.style.backgroundColor = "lightblue";
+        div.style.marginTop = "10px";
+        document.body.appendChild(div);
+
+        div.addEventListener("mouseover", function() {
+            div.style.backgroundColor = "lightgreen";
+        });
+
+        div.addEventListener("mouseout", function() {
+            div.style.backgroundColor = "lightblue";
+        }); 
+
+
+
+        // a code to handle form submission and prevent the page from reloading.
+        const form = document.createElement("form");
+        const input = document.createElement("input");
+        input.type = "text";
+        input.placeholder = "Enter something...";
+        form.appendChild(input);
+        document.body.appendChild(form);
+
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+            alert("Form submitted: " + input.value);
+        });
+
+
+        // a code that listens for a keydown event and displays the pressed key in a <p> element.
+        const p = document.createElement("p");
+        document.body.appendChild(p);
+
+        document.addEventListener("keydown", function(event) {
+            p.textContent = "Key pressed: " + event.key;
+            console.log(event);
+        });
+
+    
+
+        // a code to attach multiple event listeners to a single element and log the event type and target to the console.
+        const button = document.createElement("button");
+        button.textContent = "Click Me!";
+        document.body.appendChild(button);
+
+        button.addEventListener("click", function(event) {
+            console.log("Event type: " + event.type);
+            console.log("Event target: " + event.target);
+        });
+
+
+
+        // a function that removes an event listener after it has been triggered once.
+        function removeEventListenerOnce(element, event, handler) {
+            element.addEventListener(event, function listener(event) {
+                handler(event);
+                element.removeEventListener(event, listener);
+            });
+        }
+        const oneTimeButton = document.createElement("button");
+        oneTimeButton.textContent = "Click Me Once!";
+        document.body.appendChild(oneTimeButton);
+
+        removeEventListenerOnce(oneTimeButton, "click", function(event) {
+            alert("Button clicked!");
+        });
+
+
+        // implementing event delegation on <ul> so that clicking on any <li> logs its text content.
+        const ul = document.createElement("ul");
+        document.body.appendChild(ul);
+
+        for (let i = 1; i <= 5; i++) {
+            const li = document.createElement("li");
+            li.textContent = "Item " + i;
+            li.style.cursor = "pointer";
+            li.style.padding = "8px";
+            ul.appendChild(li);
+        }
+
+        ul.addEventListener("click", function(event) {
+            if (event.target.tagName === "LI") {
+                console.log("Clicked on: " + event.target.textContent);
+            }
+        });
+
+
+        // a code to toggle the visibility of a element when a button is clicked.
+        const toggleButton = document.createElement("button");
+        toggleButton.textContent = "Toggle Visibility";
+        document.body.appendChild(toggleButton);
+
+        const toggleDiv = document.createElement("div");
+        toggleDiv.textContent = "Toggle me!";
+        toggleDiv.style.width = "200px";
+        toggleDiv.style.height = "100px";
+        toggleDiv.style.backgroundColor = "lightcoral";
+        toggleDiv.style.marginTop = "10px";
+        document.body.appendChild(toggleDiv);
+
+        toggleButton.addEventListener("click", function() {
+            if (toggleDiv.style.display === "none") {
+                toggleDiv.style.display = "block";
+            } else {
+                toggleDiv.style.display = "none";
+            }
+        });
+
+
+        // a code to use the input event to display live feedback as the user types in a text input field.
+        const liveInput = document.createElement("input");
+        liveInput.type = "text";
+        liveInput.placeholder = "Type here...";
+        document.body.appendChild(liveInput);
+
+        const liveFeedback = document.createElement("p");
+        document.body.appendChild(liveFeedback);
+
+        liveInput.addEventListener("input", function() {
+            liveFeedback.textContent = "Live feedback: " + liveInput.value;
+        });
+
+
+        // a code to differentiate between single and double click events on the same element.
+        const clickMeButton = document.createElement("button");
+        clickMeButton.textContent = " You Can Click Me!";
+        document.body.appendChild(clickMeButton);
+
+        let clickTimer = null;
+
+        clickMeButton.addEventListener("click", function(event) {
+            if (clickTimer) {
+                clearTimeout(clickTimer);
+                clickTimer = null;
+                console.log("Double click detected");
+            } else {
+                clickTimer = setTimeout(function() {
+                    console.log("Single click detected");
+                    clickTimer = null;
+                }, 300);
+            }
+        });
+    </script>
+</body>
+</html>

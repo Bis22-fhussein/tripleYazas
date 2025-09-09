@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programs</title>
+</head>
+<body>
+    <div id="data-display"></div>
+    <script>
+        // a function that uses fetch to get data from an API and logs it to the console
+        const url = "https://pokeapi.co/api/v2/pokemon/pikachu";
+        fetch(url)
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error("Error fetching data:", error));
+
+
+
+            // a function that sends a POST request with JSON data to a server using fetch()
+         async function fetchData(url = '', data = {}) {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            const result = await response.json();
+            return result;
+        }
+
+        // Example usage:
+        const apiUrl = 'https://jsonplaceholder.typicode.com/posts';
+        const postData = {
+            title: 'TODO',
+            body: 'STUDY',
+            userId: 1
+        };
+        fetchData(apiUrl, postData)
+            .then(data => console.log("Data posted successfully:", data))
+            .catch(error => console.error("Error posting data:", error));
+
+
+            // HANDLING ERRORS WHEN USING FETCH()
+            const fetchDataWithErrorHandling = async (url = '', data = {}) => {
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const result = await response.json();
+                    return result;
+                } catch (error) {
+                    console.error("Error fetching data:", error);
+                }
+            };
+
+            // Example usage:
+            fetchDataWithErrorHandling(apiUrl, postData)
+                .then(data => {
+                    if (data) {
+                        console.log("Data posted successfully with error handling:", data);
+                    }
+                })
+                .catch(error => console.error("Error posting data with error handling:", error));
+                  
+
+                // USING ASYNC/AWAIT TO FETCH DATA FORM A GIVEN URL AND PRINT THE RESPONSE TO THE CONSOLE
+                async function fetchDataFromUrl(url) {
+                    try {
+                        const response = await fetch(url);
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        const data = await response.json();
+                        console.log("Data fetched using async/await:", data);
+                    } catch (error) {
+                        console.error("Error fetching data with async/await:", error);
+                    }
+                }
+
+                // Example usage:                fetchDataFromUrl(url);
+                fetchDataFromUrl("https://pokeapi.co/api/v2/pokemon/pikachu");
+
+
+                // SHOWING HOW TO CONVERT A RESPONSE FORM FETCH() TO JSON FORMAT
+                async function convertResponseToJson(url) {
+                    try {
+                        const response = await fetch(url);
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        const jsonData = await response.json();
+                        console.log("Converted JSON data:", jsonData);
+                    } catch (error) {
+                        console.error("Error converting response to JSON:", error);
+                    }
+                }
+                // Example usage:
+                convertResponseToJson("https://pokeapi.co/api/v2/pokemon/pikachu");
+
+
+                //A CODE THAT FETCHES DATA FROM  AN API AND DISPLAY IT IN A WEB PAGE ELEMENT
+                async function fetchDataAndDisplay(url, elementId) {
+                    try {
+                        const response = await fetch(url);
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        const data = await response.json();
+                        document.getElementById(elementId).textContent = JSON.stringify(data, null, 2);
+                    } catch (error) {
+                        console.error("Error fetching and displaying data:", error);
+                    }
+                }
+                // Example usage:
+                // Make sure to have an element with id 'data-display' in your HTML to see the result
+                // fetchDataAndDisplay("https://pokeapi.co/api/v2/pokemon/pikachu", "data-display");
+                fetchDataAndDisplay("https://pokeapi.co/api/v2/pokemon/pikachu", "data-display");
+
+
+                //SENDING FORM DATA FROM AN HTML FORM TO A SERVER USING JAVASCRIPT
+                async function sendFormData(url, formData) {
+                    try {
+                        const response = await fetch(url, {
+                            method: 'POST',
+                            body: formData
+                        });
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        const result = await response.json();
+                        console.log("Form data sent successfully:", result);
+                    } catch (error) {
+                        console.error("Error sending form data:", error);
+                    }
+                } 
+                // Example usage:
+                const formData = new FormData();
+                formData.append("name", "Pikachu");
+                formData.append("type", "Electric");
+                sendFormData("https://example.com/api/pokemon", formData);
+                // Make sure to replace "https://example.com/api/pokemon" with a valid endpoint that can handle POST requests
+
+                // WRITING AN EXAMPLE OF USING XMLHttpRequest objcet to send GET request
+                function sendGetRequest(url) {
+                    const xhr = new XMLHttpRequest();
+                    xhr.open("GET", url, true);
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === 4) {
+                            if (xhr.status === 200) {
+                                console.log("Response from GET request:", JSON.parse(xhr.responseText));
+                            } else {
+                                console.error("Error with GET request:", xhr.statusText);
+                            }
+                        }
+                    };
+                    xhr.send();
+                }
+                // Example usage:
+                sendGetRequest("https://pokeapi.co/api/v2/pokemon/pikachu");
+
+
+
+                // SENDING CUSTOM HEADERS WHEN MAKING A REQUEST USING FETCH()
+                async function fetchDataWithCustomHeaders(url) {
+                    try {
+                        const response = await fetch(url, {
+                            method: 'GET',
+                            headers: {
+                                'Custom-Header': 'CustomHeaderValue'
+                            }
+                        });
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        const data = await response.json();
+                        console.log("Data fetched with custom headers:", data);
+                    } catch (error) {
+                        console.error("Error fetching data with custom headers:", error);
+                    }
+                }
+                // Example usage:
+                fetchDataWithCustomHeaders("https://pokeapi.co/api/v2/pokemon/pikachu");
+                
+
+
+                //A CODE TO SEND DATA USING THE POST METHOD AND THEN FETCH UPDATED DATA FROM THE SAME SERVER
+                async function postDataAndFetchUpdated(url, data) {
+                    try {
+                        // Sending data using POST method
+                        const postResponse = await fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(data)
+                        });
+                        if (!postResponse.ok) {
+                            throw new Error(`HTTP error during POST! status: ${postResponse.status}`);
+                        }
+                        const postResult = await postResponse.json();
+                        console.log("Data posted successfully:", postResult);
+
+                        // Fetching updated data from the same server
+                        const fetchResponse = await fetch(url);
+                        if (!fetchResponse.ok) {
+                            throw new Error(`HTTP error during GET! status: ${fetchResponse.status}`);
+                        }
+                        const fetchData = await fetchResponse.json();
+                        console.log("Updated data fetched from server:", fetchData);
+                    } catch (error) {
+                        console.error("Error in postDataAndFetchUpdated:", error);
+                    }
+                }
+                // Example usage:
+                const newData = {
+                    title: 'New Post',
+                    body: 'This is the content of the new post.',
+                    userId: 3,
+                };
+                postDataAndFetchUpdated("https://jsonplaceholder.typicode.com/posts", newData);
+
+            </script>
+    </body>
+</html>
